@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Seq2Seq_Chatbot_QA.iml" filepath="$PROJECT_DIR$/.idea/Seq2Seq_Chatbot_QA.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Seq2Seq.iml" filepath="$PROJECT_DIR$/.idea/Seq2Seq.iml" />
     </modules>
   </component>
 </project>

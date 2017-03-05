@@ -1,0 +1,14 @@
+
+__pycache__
+
+*.py[cod]
+
+.ipynb_checkpoints
+
+model/*
+
+db/*.db
+
+bucket_dbs/*
+
+*.conv

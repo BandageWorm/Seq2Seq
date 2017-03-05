@@ -1,11 +1,8 @@
-#!/usr/bin/env python3
-
 import os
 import re
 import sys
 import sqlite3
 from collections import Counter
-
 from tqdm import tqdm
 
 def file_lines(file_path):

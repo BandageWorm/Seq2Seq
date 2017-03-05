@@ -1,10 +1,8 @@
-#!/usr/bin/env python3
 import os
 import sys
 import json
 import math
 import shutil
-import pickle
 import sqlite3
 import codecs
 from collections import OrderedDict, Counter

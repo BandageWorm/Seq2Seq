@@ -89,15 +89,15 @@ def create_model(session, forward_only):
 def train():
     """训练模型"""
     # 准备数据
-    print('准备数据')
+    print('Preparing data.')
     bucket_dbs = data_util.read_bucket_dbs(FLAGS.buckets_dir)
     bucket_sizes = []
     for i in range(len(buckets)):
         bucket_size = bucket_dbs[i].size
         bucket_sizes.append(bucket_size)
-        print('bucket {} 中有数据 {} 条'.format(i, bucket_size))
+        print('bucket {} has {} data.'.format(i, bucket_size))
     total_size = sum(bucket_sizes)
-    print('共有数据 {} 条'.format(total_size))
+    print('all {} data.'.format(total_size))
     # 开始建模与训练
     with tf.Session() as sess:
         #　构建模型

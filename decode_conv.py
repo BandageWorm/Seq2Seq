@@ -53,12 +53,14 @@ def insert_if(question, answer, cur, input_len=500, output_len=500):
         return 1
     return 0
 
-def main(file_path):
+def main(file_path, target_path):
     lines = file_lines(file_path)
 
     print('一共读取 %d 行数据' % len(lines))
 
-    db = 'db/conversation.db'
+    db = target_path + ('/conversation.db')
+    if not os.path.exists(target_path):
+        os.makedirs(target_path)
     if os.path.exists(db):
         os.remove(db)
     conn = sqlite3.connect(db)
@@ -87,10 +89,16 @@ def main(file_path):
     conn.commit()
 
 if __name__ == '__main__':
-    file_path = 'xiaohuangji50w_fenciA.conv'
-    if len(sys.argv) == 2:
+    if len(sys.argv) == 1:
+        print('No input directory.')
+    elif len(sys.argv) == 2:
         file_path = sys.argv[1]
+        target_path = sys.argv[1].split('.')[0] + '_db'
+    elif len(sys.argv) > 2:
+        file_path = sys.argv[1]
+        target_path = sys.argv[2]
+
     if not os.path.exists(file_path):
-        print('文件 {} 不存在'.format(file_path))
+        print('File {} not exist.'.format(file_path))
     else:
-        main(file_path)
+        main(file_path, target_path)

@@ -7,9 +7,7 @@ __pycache__
 
 model/*
 
-db/*.db
-
-bucket_dbs/*
+*.db
 
 *.conv
 

@@ -159,7 +159,7 @@ def generate_bucket_dbs(
             db_paths.append(db_path)
     # 对数据库列表中的数据库挨个提取
     for db_path in db_paths:
-        print('读取数据库: {}'.format(db_path))
+        print('Reading database: {}'.format(db_path))
         conn = sqlite3.connect(db_path)
         c = conn.cursor()
         def is_valid(s):
@@ -213,17 +213,15 @@ if __name__ == '__main__':
         if not os.path.isdir(db_path):
             print('invalid db source path, not dir')
             exit(1)
-    elif os.path.exists('./db'):
-        db_path = './db'
     else:
-        print('invalid db source path')
+        print('No input directory.')
         exit(1)
 
-    target_path = './bucket_dbs'
+    target_path = './bucket_dbs_' + db_path[:3]
     if not os.path.exists(target_path):
         os.makedirs(target_path)
     elif os.path.exists(target_path) and not os.path.isdir(target_path):
-        print('invalid target path, exists but not dir')
+        print('Invalid target path, exists but not dir')
         exit(1)
     elif os.path.exists(target_path) and os.path.isdir(target_path):
         shutil.rmtree(target_path)

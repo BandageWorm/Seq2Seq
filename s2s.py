@@ -4,7 +4,7 @@ import math
 import time
 import numpy as np
 import tensorflow as tf
-import data_utils
+import data_util
 import s2s_model
 
 tf.app.flags.DEFINE_float(
@@ -65,14 +65,14 @@ tf.app.flags.DEFINE_boolean(
     '是否在测试')
 
 FLAGS = tf.app.flags.FLAGS
-buckets = data_utils.bucket_conf
+buckets = data_util.buckets
 
 def create_model(session, forward_only):
     """建立模型"""
     dtype = tf.float16 if FLAGS.use_fp16 else tf.float32
     model = s2s_model.S2SModel(
-        data_utils.dim,
-        data_utils.dim,
+        data_util.dim,
+        data_util.dim,
         buckets,
         FLAGS.size,
         FLAGS.dropout,
@@ -90,7 +90,7 @@ def train():
     """训练模型"""
     # 准备数据
     print('准备数据')
-    bucket_dbs = data_utils.read_bucket_dbs(FLAGS.buckets_dir)
+    bucket_dbs = data_util.read_bucket_dbs(FLAGS.buckets_dir)
     bucket_sizes = []
     for i in range(len(buckets)):
         bucket_size = bucket_dbs[i].size
@@ -148,7 +148,7 @@ def train():
                     percent,
                     epoch_trained, FLAGS.num_per_epoch,
                     np.mean(batch_loss),
-                    data_utils.time(time_spend), data_utils.time(time_estimate)
+                    data_util.time(time_spend), data_util.time(time_estimate)
                 ))
                 sys.stdout.flush()
                 if epoch_trained >= FLAGS.num_per_epoch:
@@ -186,7 +186,7 @@ def test():
             _, _, output_logits = model.step(sess, encoder_inputs,
                 decoder_inputs, decoder_weights, bucket_id, True)
             outputs = [int(np.argmax(logit, axis=1)) for logit in output_logits]
-            ret = data_utils.indice_sentence(outputs)
+            ret = data_util.indice_sentence(outputs)
             print(ret)
             print("> ", end="")
             sys.stdout.flush()

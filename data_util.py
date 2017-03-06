@@ -12,17 +12,16 @@ from tqdm import tqdm
 
 DICTIONARY_PATH = 'db/dictionary.json'
 
-EOS = '<eos>'
-UNK = '<unk>'
-PAD = '<pad>'
-GO = '<go>'
-# 我一般是逗号放到句子后面的……
-# 不过这样比较方便屏蔽某一行，如果是JS就不用这样了，因为JS的JSON语法比较松，允许多余逗号
-bucket_conf = [
-    (5, 15)
-    , (10, 20)
-    , (15, 25)
-    , (20, 30)
+EOS = '<eos>' # End of sequence
+UNK = '<unk>' # Unknown words
+PAD = '<pad>' # Padding in bucket
+GO = '<go>' # Go for decoder start
+
+buckets = [
+    (5, 15),
+    (10, 20),
+    (15, 25),
+    (20, 30)
 ]
 
 def time(s):
@@ -55,19 +54,6 @@ def load_dictionary():
         dim = len(dictionary)
     return dim, dictionary, index_word, word_index
 
-"""
-def save_model(sess, name='model.ckpt'):
-    import tensorflow as tf
-    if not os.path.exists('model'):
-        os.makedirs('model')
-    saver = tf.train.Saver()
-    saver.save(sess, with_path('model/' + name))
-
-def load_model(sess, name='model.ckpt'):
-    import tensorflow as tf
-    saver = tf.train.Saver()
-    saver.restore(sess, with_path('model/' + name))
-"""
 
 dim, dictionary, index_word, word_index = load_dictionary()
 
@@ -115,7 +101,7 @@ class BucketData(object):
 
 def read_bucket_dbs(buckets_dir):
     ret = []
-    for encoder_size, decoder_size in bucket_conf:
+    for encoder_size, decoder_size in buckets:
         bucket_data = BucketData(buckets_dir, encoder_size, decoder_size)
         ret.append(bucket_data)
     return ret
@@ -245,7 +231,7 @@ if __name__ == '__main__':
 
     # 生成
     all_inserted, word_count_arr = generate_bucket_dbs(
-        db_path, target_path, bucket_conf, 1)
+        db_path, target_path, buckets, 1)
 
     # 导出字典
     # print('一共找到{}个词'.format(len(word_count_arr)))

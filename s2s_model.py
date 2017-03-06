@@ -3,7 +3,7 @@ import random
 import numpy as np
 import tensorflow as tf
 
-import data_utils
+import data_util
 
 class S2SModel(object):
     def __init__(self,
@@ -31,10 +31,10 @@ class S2SModel(object):
         cell = tf.contrib.rnn.DropoutWrapper(cell, output_keep_prob=dropout)
         cell = tf.contrib.rnn.MultiRNNCell([cell] * num_layers)
 
-        output_projection = None #Softmax Projection
+        output_projection = None # Softmax Projection
         softmax_loss_function = None
 
-        # 如果vocabulary太大，我们还是按照vocabulary来sample的话，内存会爆
+        # 如果vocabulary太大，以num_samples大小投影
         if num_samples > 0 and num_samples < self.target_vocab_size:
             print('开启投影：{}'.format(num_samples))
             w_t = tf.get_variable( "proj_w", [self.target_vocab_size, size],
@@ -235,19 +235,19 @@ class S2SModel(object):
         for encoder_input, decoder_input in data:
             # encoder_input, decoder_input = random.choice(data[bucket_id])
             # encoder_input, decoder_input = bucket_db.random()
-            encoder_input = data_utils.sentence_indice(encoder_input)
-            decoder_input = data_utils.sentence_indice(decoder_input)
+            encoder_input = data_util.sentence_indice(encoder_input)
+            decoder_input = data_util.sentence_indice(decoder_input)
             # Encoder
-            encoder_pad = [data_utils.PAD_ID] * (
+            encoder_pad = [data_util.PAD_ID] * (
                 encoder_size - len(encoder_input)
             )
             encoder_inputs.append(list(reversed(encoder_input + encoder_pad)))
             # Decoder
             decoder_pad_size = decoder_size - len(decoder_input) - 2
             decoder_inputs.append(
-                [data_utils.GO_ID] + decoder_input +
-                [data_utils.EOS_ID] +
-                [data_utils.PAD_ID] * decoder_pad_size
+                [data_util.GO_ID] + decoder_input +
+                [data_util.EOS_ID] +
+                [data_util.PAD_ID] * decoder_pad_size
             )
         batch_encoder_inputs, batch_decoder_inputs, batch_weights = [], [], []
         # batch encoder
@@ -266,7 +266,7 @@ class S2SModel(object):
             for j in range(self.batch_size):
                 if i < decoder_size - 1:
                     target = decoder_inputs[j][i + 1]
-                if i == decoder_size - 1 or target == data_utils.PAD_ID:
+                if i == decoder_size - 1 or target == data_util.PAD_ID:
                     batch_weight[j] = 0.0
             batch_weights.append(batch_weight)
         return batch_encoder_inputs, batch_decoder_inputs, batch_weights

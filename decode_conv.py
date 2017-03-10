@@ -56,7 +56,7 @@ def insert_if(question, answer, cur, input_len=500, output_len=500):
 def main(file_path, target_path):
     lines = file_lines(file_path)
 
-    print('一共读取 %d 行数据' % len(lines))
+    print('Totally read %d data.' % len(lines))
 
     db = target_path + ('/conversation.db')
     if not os.path.exists(target_path):
@@ -91,6 +91,7 @@ def main(file_path, target_path):
 if __name__ == '__main__':
     if len(sys.argv) == 1:
         print('No input directory.')
+        exit(1)
     elif len(sys.argv) == 2:
         file_path = sys.argv[1]
         target_path = sys.argv[1].split('.')[0] + '_db'

@@ -29,11 +29,11 @@ tf.app.flags.DEFINE_integer(
     'LSTM每层神经元数量')
 tf.app.flags.DEFINE_integer(
     'num_layers',
-    2,
+    3,
     'LSTM的层数')
 tf.app.flags.DEFINE_integer(
     'num_epoch',
-    5,
+    6,
     '训练几轮')
 tf.app.flags.DEFINE_integer(
     'num_samples',
@@ -41,7 +41,7 @@ tf.app.flags.DEFINE_integer(
     '分批softmax的样本量')
 tf.app.flags.DEFINE_integer(
     'num_per_epoch',
-    10000,
+    500000,
     '每轮训练多少随机样本')
 tf.app.flags.DEFINE_string(
     'buckets_dir',
